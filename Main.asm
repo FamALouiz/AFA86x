@@ -39,9 +39,13 @@ shiftRows MACRO
 ENDM
 
 shiftRowsHelper MACRO row, shiftAmount
-    MOV CX, shiftAmount
-    Loop: 
+    MOV CX, shiftAmount - 1
+    PUSH_LOOP_START: 
         PUSH key[row][CX]
-        LOOP Loop
+        LOOP PUSH_LOOP_START
 
+    MOV CX, shiftAmount
+    POP_LOOP_START: 
+        POP key[row][4 - CX]
+        LOOP POP_LOOP_START
 ENDM
