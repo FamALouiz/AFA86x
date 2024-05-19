@@ -4,6 +4,8 @@
 ; DESCRIPTION: Shifts the rows of the keyMatrix matrix to the left by the specified number of positions
 shiftRows MACRO
 
+    PUSHA ; Save all registers
+
     MOV BX, 1
     ; Row 0 is not shifted
     LOOP_ROWS:
@@ -12,6 +14,8 @@ shiftRows MACRO
         CMP BX, 4
         JNE LOOP_ROWS
 
+    POPA ; Restore all registers
+    
 ENDM
 
 shiftRowsHelper MACRO row, shiftAmount
