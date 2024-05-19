@@ -20,6 +20,10 @@ segment .code
 ; DESCRIPTION: Shifts the rows of the key matrix to the left by the specified number of positions
 shiftRows MACRO
 
+    ; Row 0 is not shifted
+    shiftRowsHelper 1, 1 ; Shift row 1 by 1 position
+    shiftRowsHelper 2, 2 ; Shift row 2 by 2 positions
+    shiftRowsHelper 3, 3 ; Shift row 3 by 3 positions
 ENDM
 
 shiftRowsHelper MACRO row, shiftAmount
