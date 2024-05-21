@@ -2,26 +2,16 @@
 ; Author: AFA86x
 ; Date: 18/5/2024
 
-; Define constants, variables, and data sections
-section .data
-    ; Define your data variables here
+org 100h
 
-section .bss
-    ; Define uninitialized data variables here
+; Define constants, variables, and data sections
+.data segment
+    ; Define your data variables here
+    ROWS EQU 4
+    COLS EQU 4  ;0  1  2  3  4  5  6  7  8  9   10  11  12  13  14  15
+    keyMatrix DB 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+    include ShiftRowsMacros.inc
 
 ; Define code section
-section .text
-    ; Declare global entry point
-    global _start
-
-; Entry point
-_start:
-    ; Your code starts here
-
-    ; Example: Exit program
-    mov eax, 1       ; System call number for exit
-    xor ebx, ebx     ; Exit code 0
-    int 0x80         ; Invoke system call
-
-; Define additional functions or code sections below if needed
-
+.code segment 
+    shiftRows
