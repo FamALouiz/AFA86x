@@ -8,11 +8,11 @@ shiftRows MACRO
     PUSHF ; Save flags
     MOV BX, 1
     ; Row 0 is not shifted
-    LOOP_ROWS:
+    SHIFT_ROWS_LOOP_ROWS:
         shiftRowsHelper BX, BX
         INC BX
         CMP BX, 4
-        JNE LOOP_ROWS
+        JNE SHIFT_ROWS_LOOP_ROWS
 
     POPF ; Restore flags
     POPA ; Restore all registers
