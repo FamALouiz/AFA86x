@@ -5,7 +5,7 @@
 shiftRows MACRO
 
     PUSHA ; Save all registers
-
+    PUSHF ; Save flags
     MOV BX, 1
     ; Row 0 is not shifted
     LOOP_ROWS:
@@ -14,6 +14,7 @@ shiftRows MACRO
         CMP BX, 4
         JNE LOOP_ROWS
 
+    POPF ; Restore flags
     POPA ; Restore all registers
     
 ENDM
@@ -21,6 +22,8 @@ ENDM
 shiftRowsHelper MACRO row, shiftAmount
     
     PUSHA ; Save all registers
+    PUSHF ; Save flags
+
     MOV CX, shiftAmount
     MOV AX, 4 ; Number of elements in a 4x4 matrix row
     MUL row 
@@ -31,6 +34,7 @@ shiftRowsHelper MACRO row, shiftAmount
         CMP CX, 0
         JNE SHIFT_LOOP
 
+    POPF ; Restore flags
     POPA ; Restore all registers
 ENDM
 
@@ -38,6 +42,7 @@ ENDM
 shiftElementsToTheRight MACRO row
 
     PUSHA ; Save all registers
+    PUSHF ; Save flags
 
     MOV DI, 0
     SWAP_ITEMS_LOOP: ; Shifts elements to the right
@@ -51,6 +56,7 @@ shiftElementsToTheRight MACRO row
         CMP DI, 3
         JNE SWAP_ITEMS_LOOP
 
+    POPF ; Restore flags
     POPA ; Restore all registers
 ENDM
 
