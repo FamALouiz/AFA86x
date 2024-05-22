@@ -10,7 +10,7 @@ shiftRows MACRO
     ; Row 0 is not shifted
     LOOP_ROWS:
         shiftRowsHelper BX, BX
-        ADD BX, 1
+        INC BX
         CMP BX, 4
         JNE LOOP_ROWS
 
@@ -26,7 +26,7 @@ shiftRowsHelper MACRO row, shiftAmount
     MUL row 
     MOV row, AX
     SHIFT_LOOP:
-        SUB CX, 1 
+        DEC CX 
         shiftElementsToTheRight row
         CMP CX, 0
         JNE SHIFT_LOOP
@@ -47,7 +47,7 @@ shiftElementsToTheRight MACRO row
         MOV DL, keyMatrix[row][DI + 1]
         MOV keyMatrix[row][DI], DL
         MOV keyMatrix[row][DI + 1], AL
-        ADD DI, 1
+        INC DI
         CMP DI, 3
         JNE SWAP_ITEMS_LOOP
 
