@@ -30,6 +30,7 @@ org 100h
           DB 3Eh, B5h, 66h, 48h, 03h, F6h, 0Eh, 61h, 35h, 57h, B9h, 86h, C1h, 1Dh, 9Eh, E1h
           DB F8h, 98h, 11h, 69h, D9h, 8Eh, 94h, 9Bh, 1Eh, 87h, E9h, CEh, 55h, 28h, DFr, 8Ch
           DB A1h, 89h, 0Dh, BFh, E6h, 42h, 68h, 41h, 99h, 2Dh, 0Fh, B0h, 54h, BBh, 16h
+    ResultMatrix DB 16 DUP (?)
     include SubBytesMacros.inc
 
 ; Define code section
