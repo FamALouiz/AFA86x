@@ -15,27 +15,27 @@ org 100h
     include MixColoums.inc
     include AddRoundKeyMacros.inc
 
-    SBox DB 63h, 7Ch, 77h, 7Bh, F2h, 6Bh, 6Fh, C5h, 30h, 01h, 67h, 2Bh, FEh, D7h, ABh, 76h
-          DB CAh, 82h, C9h, 7Dh, FAh, 59h, 47h, F0h, ADh, D4h, A2h, AFh, 9Ch, A4h, 72h, C0h
-          DB B7h, FDh, 93h, 26h, 36h, 3Fh, F7h, CCh, 34h, A5h, E5h, F1h, 71h, D8h, 31h, 15h
-          DB 04h, C7h, 23h, C3h, 18h, 96h, 05h, 9Ah, 07h, 12h, 80h, E2h, EBh, 27h, B2h, 75h
-          DB 09h, 83h, 2Ch, 1Ah, 1Bh, 6Eh, 5Ah, A0h, 52h, 3Bh, D6h, B3h, 29h, E3h, 2Fh, 84h
-          DB 53h, D1h, 00h, EDh, 20h, FCh, B1h, 5Bh, 6Ah, CBh, BEh, 39h, 4Ah, 4Ch, 58h, CFh
-          DB D0h, EFh, AAh, FBh, 43h, 4Dh, 33h, 85h, 45h, F9h, 02h, 7Fh, 50h, 3Ch, 9Fh, A8h
-          DB 51h, A3h, 40h, 8Fh, 92h, 9Dh, 38h, F5h, BCh, B6h, DAh, 21h, 10h, F3h, D2h, CDh
-          DB 0Ch, 13h, ECh, 5Fh, 97h, 44h, 17h, C4h, A7h, 7Eh, 3Dh, 64h, 5Dh, 19h, 73h, 60h
-          DB 81h, 4Fh, DCh, 22h, 2Ah, 90h, 88h, 46h, EEh, Bh, 14h, DEh, 5Eh, 0Bh, DBh, E0h
-          DB 32h, 3Ah, 0Ah, 49h, 06h, 24h, 5Ch, C2h, D3h, ACh, 62h, 91h, 95h, E4h, 79h, E7h
-          DB C8h, 37h, 6Dh, 8Dh, D5h, 4Eh, A9h, 6Ch, 56h, F4h, EAh, 65h, 7Ah, AEh, 08h, BAh
-          DB 78h, 25h, 2Eh, 1Ch, A6h, B4h, C6h, E8h, DDh, 74h, 1Fh, 4Bh, BDh, 8Bh, 8Ah, 70h
-          DB 3Eh, B5h, 66h, 48h, 03h, F6h, 0Eh, 61h, 35h, 57h, B9h, 86h, C1h, 1Dh, 9Eh, E1h
-          DB F8h, 98h, 11h, 69h, D9h, 8Eh, 94h, 9Bh, 1Eh, 87h, E9h, CEh, 55h, 28h, DFr, 8Ch
-          DB A1h, 89h, 0Dh, BFh, E6h, 42h, 68h, 41h, 99h, 2Dh, 0Fh, B0h, 54h, BBh, 16h
-    ResultMatrix DB 16 DUP (?)
+    SBox  DB 063h, 07Ch, 077h, 07Bh, 0F2h, 06Bh, 06Fh, 0C5h, 030h, 001h, 067h, 02Bh, 0FEh, 0D7h, 0ABh, 076h
+          DB 0CAh, 082h, 0C9h, 07Dh, 0FAh, 059h, 047h, 0F0h, 0ADh, 0D4h, 0A2h, 0AFh, 09Ch, 0A4h, 072h, 0C0h
+          DB 0B7h, 0FDh, 093h, 026h, 036h, 03Fh, 0F7h, 0CCh, 034h, 0A5h, 0E5h, 0F1h, 071h, 0D8h, 031h, 015h
+          DB 004h, 0C7h, 023h, 0C3h, 018h, 096h, 005h, 09Ah, 007h, 012h, 080h, 0E2h, 0EBh, 027h, 0B2h, 075h
+          DB 009h, 083h, 02Ch, 01Ah, 01Bh, 06Eh, 05Ah, 0A0h, 052h, 03Bh, 0D6h, 0B3h, 029h, 0E3h, 02Fh, 084h
+          DB 053h, 0D1h, 000h, 0EDh, 020h, 0FCh, 0B1h, 05Bh, 06Ah, 0CBh, 0BEh, 039h, 04Ah, 04Ch, 058h, 0CFh
+          DB 0D0h, 0EFh, 0AAh, 0FBh, 043h, 04Dh, 033h, 085h, 045h, 0F9h, 002h, 07Fh, 050h, 03Ch, 09Fh, 0A8h
+          DB 051h, 0A3h, 040h, 08Fh, 092h, 09Dh, 038h, 0F5h, 0BCh, 0B6h, 0DAh, 021h, 010h, 0F3h, 0D2h, 0CDh
+          DB 00Ch, 013h, 0ECh, 05Fh, 097h, 044h, 017h, 0C4h, 0A7h, 07Eh, 03Dh, 064h, 05Dh, 019h, 073h, 060h
+          DB 081h, 04Fh, 0DCh, 022h, 02Ah, 090h, 088h, 046h, 0EEh, 0B8h, 014h, 0DEh, 05Eh, 00Bh, 0DBh, 0E0h
+          DB 032h, 03Ah, 00Ah, 049h, 006h, 024h, 05Ch, 0C2h, 0D3h, 0ACh, 062h, 091h, 095h, 0E4h, 079h, 0E7h
+          DB 0C8h, 037h, 06Dh, 08Dh, 0D5h, 04Eh, 0A9h, 06Ch, 056h, 0F4h, 0EAh, 065h, 07Ah, 0AEh, 008h, 0BAh
+          DB 078h, 025h, 02Eh, 01Ch, 0A6h, 0B4h, 0C6h, 0E8h, 0DDh, 074h, 01Fh, 04Bh, 0BDh, 08Bh, 08Ah, 070h
+          DB 03Eh, 0B5h, 066h, 048h, 003h, 0F6h, 00Eh, 061h, 035h, 057h, 0B9h, 086h, 0C1h, 01Dh, 09Eh, 0E1h
+          DB 0F8h, 098h, 011h, 069h, 0D9h, 08Eh, 094h, 09Bh, 01Eh, 087h, 0E9h, 0CEh, 055h, 028h, 0DFh, 08Ch
+          DB 0A1h, 089h, 00Dh, 0BFh, 0E6h, 042h, 068h, 041h, 099h, 02Dh, 00Fh, 0B0h, 054h, 0BBh, 016h
+    ResultMatrix DB 16 DUP(?)
     include SubBytesMacros.inc
 
 ; Define code sectionx
 .code segment
     subByte
-    shiftRows
-    addRoundKey
+    ;shiftRows
+    ;addRoundKey
