@@ -25,12 +25,13 @@ subByte MACRO
 
              ; Calculate offset in SBox;
              ; offset=row_number×number_of_columns+column_number
+             ; number_of_columns= 16 fixed
 
              MOV AH, AL         ; Copy element value to AH
-             AND AH, 0F0h       ; Clear low nibble
-             AND AL, 0FH        ; Mask high nibble
-             MOV BL, AL         ; Copy high nibble to BL
-             MOV AL, AH         ; Copy low nibble to AL
+             AND AH, 0F0h       ; Clear low part
+             AND AL, 0FH        ; Mask high part
+             MOV BL, AL         ; Copy high part to BL
+             MOV AL, AH         ; Copy low part to AL
              MOV AH, 0          ; Clear AH for zero extension
              MUL BYTE PTR [16]  ; Multiply row by number of columns
              ADD AX, BX         ; Add column
