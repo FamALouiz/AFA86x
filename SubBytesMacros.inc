@@ -41,7 +41,7 @@ subByte MACRO
               MOV AL, SBox[SI]
 
               ; Store result in ResultMatrix
-              MOV keyMatrix[DI], AL
+              MOV ResultMatrix[DI], AL
 
              INC SI ; Move to the next element in Matrix
              INC DI ; Move to the next element in ResultMatrix
