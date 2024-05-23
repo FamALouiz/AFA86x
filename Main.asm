@@ -34,7 +34,7 @@ org 100h
     ResultMatrix DB 16 DUP (?)
     include SubBytesMacros.inc
 
-; Define code section
+; Define code sectionx
 .code segment
     subByte
     shiftRows
