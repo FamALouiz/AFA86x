@@ -9,7 +9,7 @@ org 100h
     ; Define your data variables here
     ROWS EQU 4
     COLS EQU 4  ;0  1  2  3  4  5  6  7  8  9   10  11  12  13  14  15
-    keyMatrix DB 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+    keyMatrix DB 032h, 088h, 031h, 0e0h, 043h, 05ah, 031h, 037h, 0f6h, 030h, 098h, 007h, 0a8h, 08dh, 0a2h, 034h
     MDS DB 2,3,1,1,1,2,3,1,1,1,2,3,3,1,1,2
     unchangedMatrix DB 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0
     i db 00
@@ -19,7 +19,8 @@ org 100h
     tmp dw 00 
     ans DB 00
     at db 00
-    roundKey DB 0a3h, 012h, 0bdh, 0c2h, 045h, 06fh, 08ah, 07fh, 037h, 076h, 03bh, 09fh, 01fh, 01bh, 06bh, 014h ; Random round key
+    Cipher DB 02bh, 028h, 0abh, 009h,07eh ,0aeh ,0f7h, 0cfh ,015h ,0d2h ,015h ,04fh, 016h, 0a6h, 088h, 03ch
+    roundKey DB 02bh, 028h, 0abh, 009h,07eh ,0aeh ,0f7h, 0cfh ,015h ,0d2h ,015h ,04fh, 016h, 0a6h, 088h, 03ch;cipher key
     include ShiftRowsMacros.inc
     include MixColoums.inc
     include AddRoundKeyMacros.inc
@@ -45,7 +46,22 @@ org 100h
 
 ; Define code sectionx
 .code segment
-    mixColoums 
-    ;subByte
-    ;shiftRows
-    ;addRoundKey
+    addRoundKey ;uses cipher
+    keySchedule ;get round key 1 
+    
+    mov cx,9
+    loop9:
+        pusha
+        pushf
+        
+        subByte
+        shiftRows
+        mixColoums
+        addRoundKey
+        keySchedule
+
+        popf
+        popa
+        loop loop9
+    
+    addRoundKey;uses roundkey10
