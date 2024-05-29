@@ -1,7 +1,7 @@
 mulTwo Macro inp
 
-    pushf
     pusha
+    pushf
 
     mov ax,2
     MUL inp
@@ -11,15 +11,15 @@ mulTwo Macro inp
     XOR ax,0x1Bh
     end1: MOV inp,al
     
-    popa
     popf
+    popa
     
 endm
 
 mulThree Macro inp
     
-    pushf
     pusha
+    pushf
 
     MOV DL,inp
     mov ax,2
@@ -31,8 +31,8 @@ mulThree Macro inp
     end2: MOV inp,al
     XOR inp,Dl
     
-    popa
     popf
+    popa
 
 endm
 
@@ -43,6 +43,7 @@ endm
 
 
 diad MACRO one four 
+    pusha
     pushf
     push ax
     MOV ax,4
@@ -51,13 +52,14 @@ diad MACRO one four
     MOV ah,00
     mov di,ax
     push ax
-    pushf
+    popf
+    popa
 endm
 
 clone MAcro 
 
-    pushf
     pusha
+    pushf
     MOV cx,0
     loop1:
         MOV di,cx
@@ -66,14 +68,14 @@ clone MAcro
         inc cx
        cmp cx,16
        jnz loop1
-    pusha
-    pushf
+    popf
+    popa
 endm
 
 macro mixColoums
     clone
-    pushf
     pusha
+    pushf
     ii:
         jj:
             MOV ans,00
@@ -92,7 +94,6 @@ macro mixColoums
                 MOV tmp, di
                 pop ax
 
-                pusha
                 diad x j              
                 cmp MDS[di],1
                 JNZ if2
@@ -113,7 +114,6 @@ macro mixColoums
                 MOV dl,at
                 XOR an,dl
                 endif: 
-                popa
                 ;ans = an
                 mov dl, an
                 mov ans,dl
@@ -138,6 +138,8 @@ macro mixColoums
         inc i
         cmp i,4
         jnz ii
-    popa
+
+    MOV i, 0
     popf
+    popa
 endm

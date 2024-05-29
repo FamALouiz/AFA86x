@@ -4,7 +4,8 @@
 ; DESCRIPTION: replaces each byte in the input block with a corresponding byte from the S-box.
               ;The S-box is a predefined 16x16 matrix that provides a non-linear substitution.
 subByte MACRO
-
+    PUSHA
+    PUSHF
 
               MOV DX, 4 ; Columns
 
@@ -33,7 +34,8 @@ subByte MACRO
               DEC DX
               CMP DX,0
               JNZ outer_loop
-
+    POPF
+    POPA
 ENDM
 
 

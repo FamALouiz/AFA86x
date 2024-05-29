@@ -46,22 +46,28 @@ org 100h
 
 ; Define code sectionx
 .code segment
-    addRoundKey ;uses cipher
-    keySchedule ;get round key 1 
-    
-    mov cx,9
+
+    keySchedule MACRO 
+    ENDM
+
+    mov cx,10
     loop9:
-        pusha
-        pushf
-        
+
+        CMP CX, 10
+        JE FIRST_AND_LAST_LOOP
+
         subByte
         shiftRows
         mixColoums
-        addRoundKey
-        keySchedule
+        FIRST_AND_LAST_LOOP: 
+            addRoundKey
+            CMP CX, -1
+            JE END
+            keySchedule
 
-        popf
-        popa
         loop loop9
     
-    addRoundKey;uses roundkey10
+    SUB CX, 1
+    JMP FIRST_AND_LAST_LOOP
+    END:
+    RET
