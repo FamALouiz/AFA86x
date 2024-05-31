@@ -9,7 +9,7 @@ org 100h
     ; Define your data variables here
     ROWS EQU 4
     COLS EQU 4  ;0  1  2  3  4  5  6  7  8  9   10  11  12  13  14  15
-    keyMatrix DB 032h, 088h, 031h, 0e0h, 043h, 05ah, 031h, 037h, 0f6h, 030h, 098h, 007h, 0a8h, 08dh, 0a2h, 034h
+    keyMatrix DB 032h, 088h, 031h, 0e0h, 043h, 05ah, 031h, 037h, 0f6h, 030h, 098h, 007h, 0a8h, 08dh, 0a2h, 034h ; this holds the data
     MDS DB 2,3,1,1,1,2,3,1,1,1,2,3,3,1,1,2
     unchangedMatrix DB 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0
     i db 00
@@ -20,10 +20,14 @@ org 100h
     ans DB 00
     at db 00
     Cipher DB 02bh, 028h, 0abh, 009h,07eh ,0aeh ,0f7h, 0cfh ,015h ,0d2h ,015h ,04fh, 016h, 0a6h, 088h, 03ch
-    roundKey DB 02bh, 028h, 0abh, 009h,07eh ,0aeh ,0f7h, 0cfh ,015h ,0d2h ,015h ,04fh, 016h, 0a6h, 088h, 03ch;cipher key
+                ;0     1     2      3    4    5     6     7     8      9    10    11    12    13    14    15
+    roundKey DB 02bh, 028h, 0abh, 009h,07eh ,0aeh ,0f7h, 0cfh ,015h ,0d2h ,015h ,04fh, 016h, 0a6h, 088h, 03ch ;cipher key
+    tempRoundKey DB 16 DUP(?)
+    Rcon DB 01h, 02h, 04h, 08h, 10h, 20h, 40h, 80h, 1bh, 36h
     include ShiftRowsMacros.inc
     include MixColoums.inc
     include AddRoundKeyMacros.inc
+    include KeyScheduleMacros.inc
 
     SBOX DB 63H,7CH,77H,7BH,0F2H,6BH,6FH,0C5H,30H,01H,67H,2BH,0FEH,0D7H,0ABH,76H
          DB 0CAH,82H,0C9H,7DH,0FAH,59H,47H,0F0H,0ADH,0D4H,0A2H,0AFH,9CH,0A4H,72H,0C0H
@@ -42,32 +46,34 @@ org 100h
          DB 0E1H,0F8H,98H,11H,69H,0D9H,8EH,94H,9BH,1EH,87H,0E9H,0CEH,55H,28H,0DFH
          DB 8CH,0A1H,89H,0DH,0BFH,0E6H,42H,68H,41H,99H,2DH,0FH,0B0H,54H,0BBH,16H
     ResultMatrix DB 16 DUP(?)
+    RconCounter DW 0
     include SubBytesMacros.inc
 
 ; Define code sectionx
 .code segment
 
-    keySchedule MACRO 
-    ENDM
+    MOV CX, 2
+    Loop:
+    keySchedule
+    LOOP loop
+    ; mov cx,10
+    ; loop9:
 
-    mov cx,10
-    loop9:
+    ;     CMP CX, 10
+    ;     JE FIRST_AND_LAST_LOOP
 
-        CMP CX, 10
-        JE FIRST_AND_LAST_LOOP
+    ;     subByte
+    ;     shiftRows
+    ;     mixColoums
+    ;     FIRST_AND_LAST_LOOP: 
+    ;         addRoundKey
+    ;         CMP CX, -1
+    ;         JE END
+    ;         keySchedule
 
-        subByte
-        shiftRows
-        mixColoums
-        FIRST_AND_LAST_LOOP: 
-            addRoundKey
-            CMP CX, -1
-            JE END
-            keySchedule
-
-        loop loop9
+    ;     loop loop9
     
-    SUB CX, 1
-    JMP FIRST_AND_LAST_LOOP
-    END:
-    RET
+    ; SUB CX, 1
+    ; JMP FIRST_AND_LAST_LOOP
+    ; END:
+    ; RET
