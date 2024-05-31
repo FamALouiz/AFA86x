@@ -43,7 +43,6 @@ endm
 
 
 diad MACRO one four 
-    pusha
     pushf
     push ax
     MOV ax,4
@@ -51,9 +50,8 @@ diad MACRO one four
     add al,one
     MOV ah,00
     mov di,ax
-    push ax
+    pop ax
     popf
-    popa
 endm
 
 clone MAcro 
