@@ -52,28 +52,24 @@ org 100h
 ; Define code sectionx
 .code segment
 
-    MOV CX, 2
-    Loop:
-    keySchedule
-    LOOP loop
-    ; mov cx,10
-    ; loop9:
+    mov cx,10
+    loop9:
 
-    ;     CMP CX, 10
-    ;     JE FIRST_AND_LAST_LOOP
+        CMP CX, 10
+        JE FIRST_AND_LAST_LOOP
 
-    ;     subByte
-    ;     shiftRows
-    ;     mixColoums
-    ;     FIRST_AND_LAST_LOOP: 
-    ;         addRoundKey
-    ;         CMP CX, -1
-    ;         JE END
-    ;         keySchedule
+        subByte
+        shiftRows
+        mixColoums
+        FIRST_AND_LAST_LOOP: 
+            addRoundKey
+            CMP CX, -1
+            JE END
+            keySchedule
 
-    ;     loop loop9
+        loop loop9
     
-    ; SUB CX, 1
-    ; JMP FIRST_AND_LAST_LOOP
-    ; END:
-    ; RET
+    SUB CX, 1
+    JMP FIRST_AND_LAST_LOOP
+    END:
+    RET
