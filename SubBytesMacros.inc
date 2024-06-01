@@ -17,7 +17,7 @@ subByte MACRO
 
               inner_loop:
               MOV BX, 0                  ; clear BX
-              MOV BL, keyMatrix[SI]      ; Load element from Matrix
+              MOV BL, buffer[SI]      ; Load element from Matrix
 
              ; Perform SubBytes operation
               MOV AX,0                  ; clear AX

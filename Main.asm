@@ -47,10 +47,27 @@ org 100h
          DB 8CH,0A1H,89H,0DH,0BFH,0E6H,42H,68H,41H,99H,2DH,0FH,0B0H,54H,0BBH,16H
     ResultMatrix DB 16 DUP(?)
     RconCounter DW 0
+    buffer DB 16 DUP(?) ; store from the user
+    msg db 'Enter the matrix: $' ;
     include SubBytesMacros.inc
 
-; Define code sectionx
+
+; Define code section
 .code segment
+    ; Print message
+    LEA DX, msg
+    MOV AH, 9
+    INT 21h
+
+    ; Read 16 characters from the user
+    LEA DI, buffer
+    MOV CX, 16
+
+    read_loop:
+        MOV AH, 1
+        INT 21h
+        STOSB
+        LOOP read_loop
 
     mov cx,10
     loop9:
@@ -61,7 +78,7 @@ org 100h
         subByte
         shiftRows
         mixColoums
-        FIRST_AND_LAST_LOOP: 
+        FIRST_AND_LAST_LOOP:
             addRoundKey
             CMP CX, -1
             JE END
@@ -71,5 +88,16 @@ org 100h
     
     SUB CX, 1
     JMP FIRST_AND_LAST_LOOP
+
     END:
+    ; Output the entered characters
+    LEA SI, buffer
+    MOV CX, 16
+
+    write_loop:
+            LODSB
+            MOV DL, AL
+            MOV AH, 2
+            INT 21h
+            LOOP write_loop
     RET
