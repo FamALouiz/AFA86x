@@ -48,7 +48,7 @@ org 100h
     ResultMatrix DB 16 DUP(?)
     RconCounter DW 0
     buffer DB 16 DUP(?) ; store from the user
-    msg db 'Enter the matrix: $' ;
+    msg db 'Enter the key: $' ;
     include SubBytesMacros.inc
 
 

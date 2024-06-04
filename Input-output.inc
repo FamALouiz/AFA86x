@@ -1,6 +1,6 @@
 .data
 buffer DB 16 DUP(?)
-msg DB 'Enter the matrix (16 characters): $'  ; Dollar sign ($) marks the end of the string
+msg DB 'Enter the key (16 characters): $'  ; Dollar sign ($) marks the end of the string
 
 .code
 main:
