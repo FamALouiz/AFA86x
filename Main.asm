@@ -9,7 +9,6 @@ org 100h
     ; Define your data variables here
     ROWS EQU 4
     COLS EQU 4  ;0  1  2  3  4  5  6  7  8  9   10  11  12  13  14  15
-    keyMatrix DB 032h, 088h, 031h, 0e0h, 043h, 05ah, 031h, 037h, 0f6h, 030h, 098h, 007h, 0a8h, 08dh, 0a2h, 034h ; this holds the data
     MDS DB 2,3,1,1,1,2,3,1,1,1,2,3,3,1,1,2
     unchangedMatrix DB 0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0
     i db 00
@@ -21,7 +20,6 @@ org 100h
     at db 00
     Cipher DB 02bh, 028h, 0abh, 009h,07eh ,0aeh ,0f7h, 0cfh ,015h ,0d2h ,015h ,04fh, 016h, 0a6h, 088h, 03ch
                 ;0     1     2      3    4    5     6     7     8      9    10    11    12    13    14    15
-    roundKey DB 02bh, 028h, 0abh, 009h,07eh ,0aeh ,0f7h, 0cfh ,015h ,0d2h ,015h ,04fh, 016h, 0a6h, 088h, 03ch ;cipher key
     tempRoundKey DB 16 DUP(?)
     Rcon DB 01h, 02h, 04h, 08h, 10h, 20h, 40h, 80h, 1bh, 36h
     include ShiftRowsMacros.inc
@@ -45,10 +43,11 @@ org 100h
          DB 70H,3EH,0B5H,66H,84H,03H,0F6H,0EH,61H,35H,57H,0B9H,86H,0C1H,1BH,9EH
          DB 0E1H,0F8H,98H,11H,69H,0D9H,8EH,94H,9BH,1EH,87H,0E9H,0CEH,55H,28H,0DFH
          DB 8CH,0A1H,89H,0DH,0BFH,0E6H,42H,68H,41H,99H,2DH,0FH,0B0H,54H,0BBH,16H
-    ResultMatrix DB 16 DUP(?)
     RconCounter DW 0
-    buffer DB 16 DUP(?) ; store from the user
-    msg db 'Enter the matrix: $' ;
+    keyMatrix DB 16 DUP(0) ; store from the user
+    roundKey DB 16 DUP(0) ; store from the user
+    msg db 'Enter the matrix: $'
+    msg2 db '   Enter the key: $'
     include SubBytesMacros.inc
 
 
@@ -59,15 +58,30 @@ org 100h
     MOV AH, 9
     INT 21h
 
-    ; Read 16 characters from the user
-    LEA DI, buffer
+    ; Read 16 characters from the user for the matrix
+    LEA DI, keyMatrix
     MOV CX, 16
 
-    read_loop:
+    read_loopInputMatrix:
         MOV AH, 1
         INT 21h
         STOSB
-        LOOP read_loop
+        LOOP read_loopInputMatrix
+
+    ; Print message
+        LEA DX, msg2
+        MOV AH, 9
+        INT 21h
+
+        ; Read 16 characters from the user for the key
+        LEA DI, roundKey
+        MOV CX, 16
+
+        read_loopInputKey:
+            MOV AH, 1
+            INT 21h
+            STOSB
+            LOOP read_loopInputKey
 
     mov cx,10
     loop9:
@@ -91,7 +105,7 @@ org 100h
 
     END:
     ; Output the entered characters
-    LEA SI, buffer
+    LEA SI, keyMatrix
     MOV CX, 16
 
     write_loop:

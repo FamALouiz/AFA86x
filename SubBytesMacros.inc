@@ -17,14 +17,14 @@ subByte MACRO
 
               inner_loop:
               MOV BX, 0                  ; clear BX
-              MOV BL, buffer[SI]      ; Load element from Matrix
+              MOV BL, keyMatrix[SI]      ; Load element from Matrix
 
              ; Perform SubBytes operation
               MOV AX,0                  ; clear AX
               MOV AL, SBox[BX]          ; Substitute byte using SBox
 
               ; Store result in ResultMatrix
-              MOV ResultMatrix[DI], AL
+              MOV keyMatrix[DI], AL
               INC SI                     ; Move to the next element in Matrix
               INC DI                     ; Move to the next element in ResultMatrix
               DEC CX
