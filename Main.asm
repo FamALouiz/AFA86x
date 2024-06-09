@@ -48,6 +48,7 @@ org 100h
     roundKey DB 16 DUP(0) ; store from the user
     msg db 'Enter the matrix: $'
     msg2 db '   Enter the key: $'
+    newLine db 0Dh, 0Ah, '$' ;
     include SubBytesMacros.inc
 
 
@@ -68,10 +69,16 @@ org 100h
         STOSB
         LOOP read_loopInputMatrix
 
-    ; Print message
-        LEA DX, msg2
-        MOV AH, 9
-        INT 21h
+    print_new_line:
+            LEA DX, newLine
+            MOV AH, 9
+            INT 21h
+            RET
+
+     Print_message:
+            LEA DX, msg2
+            MOV AH, 9
+            INT 21h
 
         ; Read 16 characters from the user for the key
         LEA DI, roundKey
