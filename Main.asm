@@ -17,9 +17,7 @@ org 100h
     an db 00
     tmp dw 00 
     ans DB 00
-    at db 00
-    Cipher DB 02bh, 028h, 0abh, 009h,07eh ,0aeh ,0f7h, 0cfh ,015h ,0d2h ,015h ,04fh, 016h, 0a6h, 088h, 03ch
-                ;0     1     2      3    4    5     6     7     8      9    10    11    12    13    14    15
+    at db 00                                                                     
     tempRoundKey DB 16 DUP(?)
     Rcon DB 01h, 02h, 04h, 08h, 10h, 20h, 40h, 80h, 1bh, 36h
     include ShiftRowsMacros.inc
@@ -47,7 +45,7 @@ org 100h
     keyMatrix DB 16 DUP(0) ; store from the user
     roundKey DB 16 DUP(0) ; store from the user
     msg db 'Enter the matrix: $'
-    msg2 db '   Enter the key: $'
+    msg2 db 'Enter the key: $'
     newLine db 0Dh, 0Ah, '$' ;
     include SubBytesMacros.inc
 
@@ -61,7 +59,7 @@ org 100h
 
     ; Read 16 characters from the user for the matrix
     LEA DI, keyMatrix
-    MOV CX, 16
+    MOV CX, 5
 
     read_loopInputMatrix:
         MOV AH, 1

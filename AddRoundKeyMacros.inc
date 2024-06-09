@@ -14,7 +14,7 @@ addRoundKey MACRO
 
         addRoundKeyInnerLoop BX
         INC DX
-        CMP DX, 3
+        CMP DX, 4
         JNE ADD_ROUND_KEY_LOOP_ROWS
 
     POPF ; Restore flags
