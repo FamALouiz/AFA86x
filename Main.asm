@@ -73,7 +73,6 @@ org 100h
             LEA DX, newLine
             MOV AH, 9
             INT 21h
-            RET
 
      Print_message:
             LEA DX, msg2
