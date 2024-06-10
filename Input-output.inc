@@ -1,7 +1,7 @@
 .data
 buffer DB 16 DUP(?)
 msg DB 'Enter the key (16 characters): $'  ; Dollar sign ($) marks the end of the string
-
+newLine db 0Dh, 0Ah, '$' ;
 .code
 main:
 
@@ -26,6 +26,11 @@ read_loop:
     ; Output the entered characters
     LEA SI, buffer   ; Load the address of buffer into SI
     MOV CX, 16
+
+print_new_line:
+    LEA DX, newLine
+    MOV AH, 9
+    INT 21h
 
 write_loop:
     LODSB            ; Load byte at DS:SI into AL and increment SI

@@ -42,8 +42,8 @@ org 100h
          DB 0E1H,0F8H,98H,11H,69H,0D9H,8EH,94H,9BH,1EH,87H,0E9H,0CEH,55H,28H,0DFH
          DB 8CH,0A1H,89H,0DH,0BFH,0E6H,42H,68H,41H,99H,2DH,0FH,0B0H,54H,0BBH,16H
     RconCounter DW 0
-    keyMatrix DB 16 DUP(?)
-    roundKey DB 16 DUP(?)
+    keyMatrix DB 16 DUP(0)
+    roundKey DB 16 DUP(0)
     msg db 'Enter the matrix: $'
     msg2 db 'Enter the key: $'
     newLine db 0Dh, 0Ah, '$' ;
@@ -65,27 +65,36 @@ org 100h
         MOV AH, 1
         INT 21h
         STOSB
+        CMP AL, 0Dh
+        JZ print_new_line
         LOOP read_loopInputMatrix
 
     print_new_line:
-            LEA DX, newLine
-            MOV AH, 9
-            INT 21h
+        LEA DX, newLine
+        MOV AH, 9
+        INT 21h
 
-     Print_message:
-            LEA DX, msg2
-            MOV AH, 9
-            INT 21h
+    Print_message:
+        LEA DX, msg2
+        MOV AH, 9
+        INT 21h
 
-        ; Read 16 characters from the user for the key
+    ; Read 16 characters from the user for the key
         LEA DI, roundKey
         MOV CX, 16
 
-        read_loopInputKey:
-            MOV AH, 1
-            INT 21h
-            STOSB
-            LOOP read_loopInputKey
+    read_loopInputKey:
+        MOV AH, 1
+        INT 21h
+        STOSB
+        CMP AL, 0Dh
+        JZ print_new_line2
+        LOOP read_loopInputKey
+
+     print_new_line2:
+        LEA DX, newLine
+        MOV AH, 9
+        INT 21h
 
     MOV CX, 11
     loop9: 
