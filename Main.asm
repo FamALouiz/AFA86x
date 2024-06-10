@@ -43,7 +43,7 @@ org 100h
          DB 0E1H,0F8H,98H,11H,69H,0D9H,8EH,94H,9BH,1EH,87H,0E9H,0CEH,55H,28H,0DFH
          DB 8CH,0A1H,89H,0DH,0BFH,0E6H,42H,68H,41H,99H,2DH,0FH,0B0H,54H,0BBH,16H
     RconCounter DW 0
-    defaultValue DB 0      ; This value should match the one in the keyMatrix
+    defaultValue DB 0   ; This value should match the one in the keyMatrix
     keyMatrix DB 16 DUP(0)                                   ; assumption that the rest of the inputs are nulls or 00h (some websites assume they are                                    
     roundKey DB 16 DUP(0)                                    ; white spaces or 020h) depending on the assumption change the default value for the keyMatrix
     msg db 'Enter the input text: $'
@@ -54,50 +54,8 @@ org 100h
 
 ; Define code section
 .code segment
-    ; Print message
-    LEA DX, msg
-    MOV AH, 9
-    INT 21h
-
-    ; Read 16 characters from the user for the matrix
-    LEA DI, keyMatrix
-    MOV CX, 16
-
-    read_loopInputMatrix:
-        MOV AH, 1
-        INT 21h
-        STOSB
-        CMP AL, 0Dh
-        JZ correct_last_digit
-        LOOP read_loopInputMatrix
-
-    print_new_line:
-        STOSB
-        LEA DX, newLine
-        MOV AH, 9
-        INT 21h
-
-    Print_message:
-        LEA DX, msg2
-        MOV AH, 9
-        INT 21h
-
-    ; Read 16 characters from the user for the key
-        LEA DI, roundKey
-        MOV CX, 16
-
-    read_loopInputKey:
-        MOV AH, 1
-        INT 21h
-        STOSB
-        CMP AL, 0Dh
-        JZ print_new_line2
-        LOOP read_loopInputKey
-
-     print_new_line2:
-        LEA DX, newLine
-        MOV AH, 9
-        INT 21h
+    
+    CALL Take_Input_And_Key
 
     MOV CX, totalNumberOfLoops
     loop9: 
@@ -137,3 +95,54 @@ org 100h
         SUB DI, 1                   ; Correcting last digit
         MOV AL, defaultValue
         JMP print_new_line
+
+
+    Take_Input_And_Key PROC
+
+        ; Print message
+        LEA DX, msg
+        MOV AH, 9
+        INT 21h
+
+        ; Read 16 characters from the user for the matrix
+        LEA DI, keyMatrix
+        MOV CX, 16
+
+        read_loopInputMatrix:
+            MOV AH, 1
+            INT 21h
+            STOSB
+            CMP AL, 0Dh
+            JZ correct_last_digit
+            LOOP read_loopInputMatrix
+
+        print_new_line:
+            STOSB
+            LEA DX, newLine
+            MOV AH, 9
+            INT 21h
+
+        Print_message:
+            LEA DX, msg2
+            MOV AH, 9
+            INT 21h
+
+        ; Read 16 characters from the user for the key
+            LEA DI, roundKey
+            MOV CX, 16
+
+        read_loopInputKey:
+            MOV AH, 1
+            INT 21h
+            STOSB
+            CMP AL, 0Dh
+            JZ print_new_line2
+            LOOP read_loopInputKey
+
+        print_new_line2:
+            LEA DX, newLine
+            MOV AH, 9
+            INT 21h
+
+        RET
+    Take_Input_And_Key ENDP
