@@ -18,7 +18,7 @@ org 100h
     tmp dw 00 
     ans DB 00
     at db 00                   
-    totalNumberOfLoops DB 11          ; 1 + 9 + 1 (if the number of loops needs to be changed please change here)                                           
+    totalNumberOfLoops DW 11          ; 1 + 9 + 1 (if the number of loops needs to be changed please change here)                                           
     tempRoundKey DB 16 DUP(?)
     Rcon DB 01h, 02h, 04h, 08h, 10h, 20h, 40h, 80h, 1bh, 36h
     include ShiftRowsMacros.inc
@@ -43,6 +43,7 @@ org 100h
          DB 0E1H,0F8H,98H,11H,69H,0D9H,8EH,94H,9BH,1EH,87H,0E9H,0CEH,55H,28H,0DFH
          DB 8CH,0A1H,89H,0DH,0BFH,0E6H,42H,68H,41H,99H,2DH,0FH,0B0H,54H,0BBH,16H
     RconCounter DW 0
+    defaultValue DB 0      ; This value should match the one in the keyMatrix
     keyMatrix DB 16 DUP(0)                                   ; assumption that the rest of the inputs are nulls or 00h (some websites assume they are                                    
     roundKey DB 16 DUP(0)                                    ; white spaces or 020h) depending on the assumption change the default value for the keyMatrix
     msg db 'Enter the input text: $'
@@ -67,10 +68,11 @@ org 100h
         INT 21h
         STOSB
         CMP AL, 0Dh
-        JZ print_new_line
+        JZ correct_last_digit
         LOOP read_loopInputMatrix
 
     print_new_line:
+        STOSB
         LEA DX, newLine
         MOV AH, 9
         INT 21h
@@ -130,3 +132,8 @@ org 100h
             INT 21h
             LOOP write_loop
     RET
+
+    correct_last_digit:
+        SUB DI, 1                   ; Correcting last digit
+        MOV AL, defaultValue
+        JMP print_new_line
